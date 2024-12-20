@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
+    <title>Contact-Us</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awasm  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Animate.css  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" referrerpolicy="no-referrer" />
+
+    <style>
+        /* Add your styles here as before... */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 50px;
+        }
+        .payment-modal-content {
+            background-color: white;
+            padding: 20px;
+            margin: auto;
+            width: 50%;
+            max-width: 400px;
+            border-radius: 5px;
+        }
+        .payment-option {
+            cursor: pointer;
+            margin: 5px;
+        }
+        .modal-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px; /* Space between the buttons */
+        margin-top: 15px;
+    }
+
+    .modal-buttons button {
+        width: 48%; /* Make the buttons take up almost half the width each */
+        padding: 10px;
+    }
+
+    @media (max-width: 320px) {
+        .modal-buttons {
+            flex-direction: column; /* Stack buttons on top of each other */
+            align-items: center;
+        }
+
+        .modal-buttons button {
+            width: 100%; /* Make buttons full width on small screens */
+            margin-bottom: 10px; /* Add space between buttons */
+        }
+
+        .modal-buttons button:last-child {
+            margin-bottom: 0; /* Remove margin on the last button */
+        }
+    }
+        #myVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%; 
+            min-height: 100%;
+            z-index: -1;
+        }
+
+        /* Navbar-style */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10; /* Ensure navbar is always on top */
+            /* background-color: rgba(255,255,255,0.5); */
+            background-color: 	#E6E6FA;;
+        }
+
+        .navbar-brand {
+            font-family: 'Lucida Handwriting', cursive;
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .section-title {
+            margin-top: 50px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .news-card {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-btn {
+            width: 100%;
+            text-align: center;
+        }
+        .nav-link{
+            font-family: "Special Elite", system-ui;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 18px;
+        }
+
+        .nav-item a{
+            font-size: 130%;
+            font-family: "Playwrite PT Guides", cursive;
+        }
+    
+        .navbar-brand img{
+            height: 50px;
+            width: 150%;
+        }
+        /**/
+        body {
+            background-size:cover;
+            margin-top: 90px;
+            padding-bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .checkout-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 30px;
+            /* background-color: white; */
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff;
+            /* background-color: #343a40; */
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+        }
+
+        .payment-options .form-check-label {
+            font-size: 1.1rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .order-summary {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+
+        .order-summary h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .order-summary .list-group-item {
+            padding: 10px;
+        }
+
+        .order-summary .total {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .btn-confirm {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-confirm:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+        .payment-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding-top: 50px;
+        }
+        .payment-modal-content {
+            background-color: white;
+            padding: 20px;
+            margin: auto;
+            width: 50%;
+            max-width: 400px;
+            border-radius: 5px;
+        }
+        .payment-option {
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay muted loop id="myVideo">
+        <source src="https://dm0qx8t0i9gc9.cloudfront.net/watermarks/video/B04Gfy1teiz3sdqe6/videoblocks-online-payment-from-smartphone-online-shopping-business-mobile-shopping-online-payment-with-credit-card-animation-at-the-screen-mobile-phone_st7cuoop8__e4cf78a672ac064d942af43a6b26a76b__P360.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+     <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-light rounded">
+        <div class="container-fluid">
+            <a class="navbar-brand animate__animated animate__bounce" href="index.html" title="AgriMart"><img src="https://agrimart.in//uploads/vendor_logo_image/logo_1.png"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" title="Home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Product-Categories.html" title="Product-Categories">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Details.html" title="Details">Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="About-Us.html" title="About-Us">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Contact-us.html" title="Contact-Us">Contact-Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Blog.html" title="Blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="FAQ.html" title="FAQ">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" style="border-radius: 20px; background-color: #DFFF00; color: red;" href="Checkout-payment.html" title="Checkout-payment"><i class="fa-solid fa-cart-shopping"></i></a>
+                    </li>
+                </ul>
+            </div>
+    </nav>
+
+    <!-- main -->
+    <div class="container checkout-container">
+        <h2 class="checkout-header">Checkout Process</h2>
+
+        <div class="row">
+            <!-- Order Summary -->
+            <div class="col-md-12 order-summary">
+                <h4>Order Summary</h4>
+                <ul class="list-group" id="orderSummaryList">
+                    <!-- Cart items will be dynamically added here -->
+                </ul>
+                <p class="total" id="orderTotal">Total: ₹0</p>
+
+                <!-- Buy Total Button -->
+                <button id="buyTotalBtn" class="btn btn-success mt-4" style="display: none;">Buy Total</button>
+            </div>
+
+            <!-- Billing Information -->
+            <!-- Your billing information form... -->
+
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="payment-modal">
+        <div class="payment-modal-content">
+            <h4>Select Payment Method</h4>
+            <div class="payment-option" id="cardOption">
+                <button class="btn btn-primary w-100">Credit Card</button>
+            </div>
+            <div class="payment-option" id="upiOption">
+                <button class="btn btn-secondary w-100">UPI</button>
+            </div>
+            <div id="paymentDetails"></div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript for Order Confirmation -->
+    <script>
+        const a = document.querySelector('a');
+        a.addEventListener('mouseover', () => {
+        a.classList.remove('animate__bounce'); // Remove the class
+        void a.offsetWidth; // Trigger a reflow, so the animation restarts
+        a.classList.add('animate__bounce'); // Add the class again to trigger the animation
+        });
+
+        window.onload = function() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const orderSummaryList = document.getElementById('orderSummaryList');
+    const orderTotalElement = document.getElementById('orderTotal');
+    const paymentModal = document.getElementById('paymentModal');
+    const paymentDetailsDiv = document.getElementById('paymentDetails');
+    let totalAmount = 0;
+
+    // Function to update the total amount
+    function updateTotalAmount() {
+        totalAmount = 0;
+        cart.forEach(function(item) {
+            totalAmount += parseInt(item.price) * item.quantity;
+        });
+        orderTotalElement.innerText = `Total: ₹${totalAmount}`;
+    }
+
+    // Function to update the cart display
+    function updateCart() {
+        orderSummaryList.innerHTML = '';
+        cart.forEach(function(item, index) {
+            item.quantity = item.quantity || 1;
+
+            const li = document.createElement('li');
+            li.classList.add('list-group-item');
+            li.innerHTML = `
+                <strong>${item.name}</strong> - ₹<span class="productAmount" id="productAmount-${index}">${item.price * item.quantity}</span>
+                <button class="btn btn-success btn-sm float-end mx-2 buyBtn" data-index="${index}">Buy</button>
+                <button class="btn btn-danger btn-sm float-end removeBtn" data-index="${index}"><i class="fa-solid fa-trash"></i></button>
+                <button class="btn btn-secondary btn-sm float-end mx-2 plusBtn" data-index="${index}">+</button>
+                <span class="float-end mx-2" id="productQuantity-${index}" class="quantity">${item.quantity}</span>
+                <button class="btn btn-secondary btn-sm float-end mx-2 minusBtn" data-index="${index}">-</button>
+            `;
+            orderSummaryList.appendChild(li);
+        });
+
+        // Show the Buy Total button
+        document.getElementById('buyTotalBtn').style.display = 'block';
+
+        // Update the total amount
+        updateTotalAmount();
+
+    }
+    
+    // Check if there are items in the cart
+    if (cart.length > 0) {
+        updateCart();
+    } else {
+        orderSummaryList.innerHTML = '<li class="list-group-item">No items in cart</li>';
+        orderTotalElement.innerText = 'Total: ₹0';
+    }
+
+    // Show the Buy Total button after updating the cart
+document.getElementById('buyTotalBtn').style.display = 'block';
+
+// Event listener for the Buy Total button
+document.getElementById('buyTotalBtn').addEventListener('click', function() {
+    // Check if there are items in the cart
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    if (cart.length === 0) {
+        // Show an alert if the cart is empty
+        alert('There is no item in cart');
+    } else {
+        // Show the payment modal if there are items in the cart
+        paymentModal.style.display = 'block';
+
+        // After the total purchase is completed, clear the entire cart
+        localStorage.removeItem('cart'); // Clear cart from localStorage
+        updateCart(); // Re-render the cart (this will now be empty)
+    }
+});
+
+// Event listener for "Buy" buttons (individual item purchase)
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('buyBtn')) {
+        const index = e.target.getAttribute('data-index');
+        const item = cart[index];
+
+        // Show the payment modal for the individual item purchase
+        paymentModal.style.display = 'block';
+
+        // Store the index of the item to remove after successful payment
+        sessionStorage.setItem('itemToRemove', index);
+    }
+}); 
+
+
+
+
+
+    // Event listener for "+" button (Increase quantity)
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('plusBtn')) {
+            const index = e.target.getAttribute('data-index');
+            cart[index].quantity += 1;
+            updateCart(); // Re-render the cart with updated quantity
+            localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart
+        }
+    });
+
+    // Event listener for "-" button (Decrease quantity)
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('minusBtn')) {
+            const index = e.target.getAttribute('data-index');
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
+                updateCart(); // Re-render the cart with updated quantity
+                localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart
+            }
+        }
+    });
+
+    // Event listener for "Remove" button (Remove item from cart)
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('removeBtn')) {
+            const index = e.target.getAttribute('data-index');
+            cart.splice(index, 1); // Remove the item from the cart
+            updateCart(); // Re-render the cart with updated items
+            localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart
+        }
+    });
+
+   // Event listener for Card Option
+document.getElementById('cardOption').addEventListener('click', function() {
+    paymentDetailsDiv.innerHTML = `
+        <h5>Enter Credit Card Details</h5>
+        <div class="mb-3">
+            <label for="cardNumber" class="form-label">Card Number</label>
+            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9101 1121" maxlength="19">
+        </div>
+        <div class="mb-3">
+            <label for="cvcNumber" class="form-label">CVC</label>
+            <input type="text" class="form-control" id="cvcNumber" placeholder="123" maxlength="3">
+        </div>
+        <div class="modal-buttons">
+            <button id="submitPayment" class="btn btn-success w-45" disabled>Submit</button>
+            <button id="cancelPayment" class="btn btn-danger w-45">Cancel</button>
+        </div>
+    `;
+
+    // Format the credit card input to add space after every 4 digits
+    document.getElementById('cardNumber').addEventListener('input', function(e) {
+        const input = e.target;
+        let value = input.value.replace(/\D/g, ''); // Remove non-digits
+        if (value.length > 16) {
+            value = value.slice(0, 16); // Limit to 16 digits
+        }
+        // Format in groups of 4 digits
+        input.value = value.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+
+        // Enable Submit button only if the card number has 16 digits and CVC has 3 digits
+        const cardNumber = input.value.replace(/\D/g, ''); // Get only digits
+        const cvc = document.getElementById('cvcNumber').value;
+        document.getElementById('submitPayment').disabled = !(cardNumber.length === 16 && cvc.length === 3);
+
+        // Enable Submit button when CVC is valid
+        document.getElementById('cvcNumber').addEventListener('input', function(e) {
+            const cvc = e.target.value;
+            const cardNumber = document.getElementById('cardNumber').value.replace(/\D/g, '');
+            document.getElementById('submitPayment').disabled = !(cardNumber.length === 16 && cvc.length === 3);
+        });
+    });
+
+});
+
+// Event listener for UPI Option
+document.getElementById('upiOption').addEventListener('click', function() {
+    paymentDetailsDiv.innerHTML = `
+        <h5>Enter UPI Number</h5>
+        <div class="mb-3">
+            <label for="upiNumber" class="form-label">UPI Number</label>
+            <input type="text" class="form-control" id="upiNumber" placeholder="1234567890" maxlength="10">
+        </div>
+        <div class="modal-buttons">
+            <button id="submitPayment" class="btn btn-success w-45" disabled>Submit</button>
+            <button id="cancelPayment" class="btn btn-danger w-45">Cancel</button>
+        </div>
+    `;
+
+    // Enable Submit button only if the UPI Number has 10 digits
+    document.getElementById('upiNumber').addEventListener('input', function(e) {
+        const input = e.target;
+        let value = input.value.replace(/\D/g, ''); // Remove non-digits
+        if (value.length > 10) {
+            value = value.slice(0, 10); // Limit to 10 digits
+        }
+        input.value = value; // No spaces between digits
+
+        // Enable Submit button when 10 digits are entered
+        document.getElementById('submitPayment').disabled = value.length !== 10;
+    });
+});
+
+// Event listener for Submit Payment button
+document.getElementById('paymentDetails').addEventListener('click', function(event) {
+    if (event.target && event.target.id === 'submitPayment') {
+        const paymentMethod = document.querySelector('.payment-option.active') ? 
+                            document.querySelector('.payment-option.active').textContent : '';
+        let confirmationMessage = '';
+
+        // Check if payment is successful
+        if (paymentMethod === 'Credit Card') {
+            const cardNumber = document.getElementById('cardNumber').value;
+            const cvc = document.getElementById('cvcNumber').value;
+            if (cardNumber && cvc) {
+                confirmationMessage = `Your Order is Confirmed with Credit Card. Card Number: ${cardNumber}`;
+            } else {
+                confirmationMessage = 'Please enter valid card details.';
+            }
+        } else if (paymentMethod === 'UPI') {
+            const upiNumber = document.getElementById('upiNumber').value;
+            if (upiNumber) {
+                confirmationMessage = `Your Order is Confirmed with UPI. UPI Number: ${upiNumber}`;
+            } else {
+                confirmationMessage = 'Please enter valid UPI Number.';
+            }
+        }
+
+        alert("Your Order is Confirmed!"); // Show confirmation message in a popup
+        paymentModal.style.display = 'none'; // Close the modal
+
+        // Handle removing the individual item from the cart
+        const itemIndexToRemove = sessionStorage.getItem('itemToRemove');
+        if (itemIndexToRemove !== null) {
+            cart.splice(itemIndexToRemove, 1); // Remove the item from the cart
+            sessionStorage.removeItem('itemToRemove'); // Clear session storage
+            localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart to localStorage
+            updateCart(); // Re-render the cart
+        }
+
+        window.location.reload(); // Reload the page or redirect to a confirmation page
+    }
+});
+
+
+// Event listener for Cancel Payment button
+document.getElementById('paymentDetails').addEventListener('click', function(event) {
+    if (event.target && event.target.id === 'cancelPayment') {
+        // Close the payment modal without doing anything
+        paymentModal.style.display = 'none';
+    }
+        });
+            };    
+
+            // Event listener for Close button
+document.getElementById('closePaymentModal').addEventListener('click', function() {
+    // Close the payment modal
+    paymentModal.style.display = 'none';
+});
+
+</script>
+</body>
+</html>
